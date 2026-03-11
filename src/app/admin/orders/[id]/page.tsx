@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2, Save, CheckCircle2, Clock } from "lucide-react";
 import { ORDER_STATUSES, STATUS_COLORS, formatDate, formatFileSize, cn } from "@/lib/utils";
+import { MATERIAL_RATES, SETUP_FEE, calcEstimatedPrice } from "@/lib/pricing";
 
 interface Order {
   id: string;
@@ -41,6 +42,7 @@ export default function AdminOrderPage() {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [estimatedPrice, setEstimatedPrice] = useState("");
   const [finalPrice, setFinalPrice] = useState("");
+  const [printWeightG, setPrintWeightG] = useState("");
 
   useEffect(() => {
     fetch(`/api/orders/${params.id}`)
@@ -211,6 +213,45 @@ export default function AdminOrderPage() {
                 placeholder="e.g. 1Z999AA10123456784"
               />
             </div>
+
+            {/* Weight-based price calculator */}
+            <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Price Calculator</p>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1.5">
+                  Print weight (g) <span className="text-gray-400 font-normal">— from slicer</span>
+                </label>
+                <input
+                  type="number"
+                  value={printWeightG}
+                  onChange={(e) => {
+                    const w = e.target.value;
+                    setPrintWeightG(w);
+                    const grams = parseFloat(w);
+                    if (!isNaN(grams) && grams > 0 && order?.settings) {
+                      const price = calcEstimatedPrice(
+                        order.settings.material,
+                        grams,
+                        order.settings.quantity
+                      );
+                      setEstimatedPrice(price.toFixed(2));
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  placeholder="e.g. 45"
+                  step="0.1"
+                  min="0"
+                />
+              </div>
+              {order?.settings && (
+                <p className="text-xs text-gray-400">
+                  Rate: <span className="font-medium text-gray-600">
+                    ${(MATERIAL_RATES[order.settings.material] ?? MATERIAL_RATES["PLA"]).toFixed(2)}/g
+                  </span> ({order.settings.material}) · min ${SETUP_FEE.toFixed(2)}
+                </p>
+              )}
+            </div>
+
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">Estimated Price ($)</label>
               <input

@@ -5,12 +5,11 @@ import { useSession } from "next-auth/react";
 import { Upload, ChevronDown, ChevronUp, Loader2, FileBox, X } from "lucide-react";
 import { cn, formatFileSize } from "@/lib/utils";
 
-const PRINTERS = ["Bambu Lab X1C", "Prusa MK4", "Elegoo Saturn 4 Ultra", "Bambu Lab A1 Mini"];
+const PRINTERS = ["Bambu Lab X1C", "Bambu Lab A1", "Bambu Lab H2D"];
 const MATERIALS: Record<string, string[]> = {
   "Bambu Lab X1C": ["PLA", "PETG", "ABS", "TPU", "ASA", "PA"],
-  "Prusa MK4": ["PLA", "PETG", "ASA", "Flex", "PETG-CF"],
-  "Elegoo Saturn 4 Ultra": ["Standard Resin", "ABS-like Resin", "Water-washable Resin"],
-  "Bambu Lab A1 Mini": ["PLA", "PETG", "TPU"],
+  "Bambu Lab A1": ["PLA", "PETG", "TPU"],
+  "Bambu Lab H2D": ["PLA", "PETG", "ABS", "TPU", "ASA", "PA"],
 };
 const NOZZLE_SIZES = ["0.2mm", "0.4mm", "0.6mm", "0.8mm"];
 const LAYER_HEIGHTS = ["0.05mm", "0.1mm", "0.15mm", "0.2mm", "0.3mm"];

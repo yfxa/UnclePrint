@@ -9,9 +9,42 @@ const steps = [
 ];
 
 const printers = [
-  { name: "Bambu Lab X1C", material: "PLA, PETG, ABS, TPU", precision: "0.1mm – 0.4mm", speed: "Fast" },
-  { name: "Prusa MK4", material: "PLA, PETG, ASA, Flex", precision: "0.1mm – 0.6mm", speed: "Standard" },
-  { name: "Elegoo Saturn 4", material: "Resin (Standard/ABS-like)", precision: "0.05mm – 0.1mm", speed: "Detailed" },
+  {
+    name: "Bambu Lab X1C",
+    precision: "0.1mm – 0.4mm",
+    speed: "Fast",
+    materials: [
+      { name: "PLA", price: "$0.023/g" },
+      { name: "PETG", price: "$0.020/g" },
+      { name: "ABS", price: "$0.020/g" },
+      { name: "ASA", price: "$0.023/g" },
+      { name: "TPU", price: "$0.030/g" },
+      { name: "PA", price: "$0.035/g" },
+    ],
+  },
+  {
+    name: "Bambu Lab A1",
+    precision: "0.1mm – 0.4mm",
+    speed: "Standard",
+    materials: [
+      { name: "PLA", price: "$0.023/g" },
+      { name: "PETG", price: "$0.020/g" },
+      { name: "TPU", price: "$0.030/g" },
+    ],
+  },
+  {
+    name: "Bambu Lab H2D",
+    precision: "0.1mm – 0.4mm",
+    speed: "Fast",
+    materials: [
+      { name: "PLA", price: "$0.023/g" },
+      { name: "PETG", price: "$0.020/g" },
+      { name: "ABS", price: "$0.020/g" },
+      { name: "ASA", price: "$0.023/g" },
+      { name: "TPU", price: "$0.030/g" },
+      { name: "PA", price: "$0.035/g" },
+    ],
+  },
 ];
 
 export default function HomePage() {
@@ -78,19 +111,20 @@ export default function HomePage() {
                 <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
                   <Package className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 text-lg mb-3">{p.name}</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Materials</span>
-                    <span className="text-gray-700 font-medium">{p.material}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Precision</span>
-                    <span className="text-gray-700 font-medium">{p.precision}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Speed</span>
-                    <span className="text-gray-700 font-medium">{p.speed}</span>
+                <h3 className="font-semibold text-gray-900 text-lg mb-1">{p.name}</h3>
+                <div className="flex gap-4 text-xs text-gray-500 mb-4">
+                  <span>Precision: {p.precision}</span>
+                  <span>Speed: {p.speed}</span>
+                </div>
+                <div className="border-t border-gray-100 pt-3">
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Materials & Pricing</p>
+                  <div className="space-y-1.5">
+                    {p.materials.map((m) => (
+                      <div key={m.name} className="flex justify-between items-center text-sm">
+                        <span className="text-gray-700">{m.name}</span>
+                        <span className="text-blue-600 font-medium tabular-nums">{m.price}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

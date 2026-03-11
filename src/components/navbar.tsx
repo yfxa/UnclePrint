@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Printer, Package, Upload, LayoutDashboard, LogOut, LogIn } from "lucide-react";
+import { Printer, Package, Upload, LayoutDashboard, LogOut, LogIn, Tag } from "lucide-react";
 
 export function Navbar() {
   const { data: session } = useSession();
@@ -16,6 +16,10 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-1">
+            <Link href="/pricing" className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              <Tag className="w-4 h-4" />
+              Pricing
+            </Link>
             {session ? (
               <>
                 <Link href="/upload" className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
